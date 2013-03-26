@@ -24,4 +24,16 @@ object session {
   sqrt(0.1e-20)                                   //> res6: Double = 3.1622778383672726E-11
   sqrt(1.0e20)                                    //> res7: Double = 1.0000021484861237E10
   sqrt(1.0e50)                                    //> res8: Double = 1.0000003807575104E25
+
+  def factorial(x: Int): Int = {
+    def factorial(y: Int, accumulator: Int): Int =
+      if (y == 0) accumulator
+      else factorial(y - 1, accumulator * y)
+
+    factorial(x, 1)
+  }                                               //> factorial: (x: Int)Int
+
+  factorial(3)                                    //> res9: Int = 6
+  factorial(4)                                    //> res10: Int = 24
+  factorial(5)                                    //> res11: Int = 120
 }
