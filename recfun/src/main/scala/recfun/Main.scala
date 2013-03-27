@@ -25,7 +25,19 @@ object Main {
   /**
    * Exercise 2
    */
-  def balance(chars: List[Char]): Boolean = ???
+  def balance(chars: List[Char]): Boolean = {
+    def scan(chars:List[Char], count:Int):Boolean = {
+      if (count < 0) false
+      else if (chars.isEmpty) count == 0
+      else {
+        val cur = chars.head
+        val change = if (cur == '(') 1 else if (cur == ')') -1 else 0
+        scan(chars.tail, count + change)
+      }
+    }
+    
+    scan(chars, 0)
+  }
 
   /**
    * Exercise 3
