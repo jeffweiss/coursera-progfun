@@ -12,9 +12,15 @@ object Main {
   }
 
   /**
-   * Exercise 1
+   * Exercise 1 - We can calculate a value on a row
+   * by doing taking the number immediately to the left
+   * multiplying it by (the row + 1 - column) and then 
+   * dividing by the column
    */
-  def pascal(c: Int, r: Int): Int = ???
+  def pascal(c: Int, r: Int): Int = {
+    if (c == 0) 1
+    else pascal(c-1, r) * (r - c  + 1)/ c
+  }
 
   /**
    * Exercise 2
