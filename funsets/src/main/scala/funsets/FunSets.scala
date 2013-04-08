@@ -52,16 +52,28 @@ object FunSets {
 
   /**
    * Returns whether all bounded integers within `s` satisfy `p`.
+   *   mapReduce(s, p, true, (x, y) => x && y)
+   * 
    */
-  def forall(s: Set, p: Int => Boolean): Boolean = mapReduce(s, p, true, (x, y) => x && y)
+  def forall(s: Set, p: Int => Boolean): Boolean = {
+    def iter(a: Int): Boolean = {
+      if (a > bound) true
+      else if (s(a)) p(a) && iter(a + 1)
+      else iter(a + 1)
+    }
+    iter(-bound)
+    
+  }    
 
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
+   * 	mapReduce(s, p, false, (x, y) => x || y)
    */
-  def exists(s: Set, p: Int => Boolean): Boolean = mapReduce(s, p, false, (x, y) => x || y)
+  def exists(s: Set, p: Int => Boolean): Boolean = ! forall(s, (x) => ! p(x))  
 
-  def mapReduce(s: Set, p: Int => Boolean, outOfBounds: Boolean, reduce: (Boolean, Boolean) => Boolean) = {
+  /*
+   *   def mapReduce(s: Set, p: Int => Boolean, outOfBounds: Boolean, reduce: (Boolean, Boolean) => Boolean) = {
     def iter(a: Int): Boolean = {
       if (a > bound) outOfBounds
       else if (s(a)) reduce(p(a), iter(a + 1))
@@ -69,6 +81,8 @@ object FunSets {
     }
     iter(-bound)
   }
+   *   
+   */
 
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
