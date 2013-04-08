@@ -73,10 +73,13 @@ object FunSets {
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    * s = {1, 2, 3} = x == 1 || x == 2 || x == 3
+   * f = x => x*2
    * map(s, x => x*2) = {2, 4, 6} = x == 1*2 || x == 2*2 || x == 3*2
+   * (x) => exist(s, y => f(y) == x)
+   *
    *
    */
-  def map(s: Set, f: Int => Int): Set = (elem: Int) => ???
+  def map(s: Set, f: Int => Int): Set = (elem: Int) => exists(s, x => f(x) == elem)
 
   /**
    * Displays the contents of a set
