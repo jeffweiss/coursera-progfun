@@ -25,6 +25,14 @@ class HuffmanSuite extends FunSuite {
       assert(chars(t2) === List('a','b','d'))
     }
   }
+  
+  test("times") {
+    val list = 'a' :: 'b' :: 'a' :: 'c' :: 'b' :: 'a' :: 'a' :: Nil
+    val result = times(list)
+    assert(result(result.indexWhere(p => p._1 == 'a'))._2 === 4)
+    assert(result(result.indexWhere(p => p._1 == 'b'))._2 === 2)
+    assert(result(result.indexWhere(p => p._1 == 'c'))._2 === 1)
+  }
 
   test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
@@ -38,10 +46,30 @@ class HuffmanSuite extends FunSuite {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
     assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
   }
+  
+  test("decoded secret") {
+    assert(decodedSecret === "huffmanestcool".toList)
+  }
+  
+  test("combine singleton") {
+    assert(combine(List(Leaf('a', 1))) === List(Leaf('a', 1)))
+  }
+  
+  test("combine nil") {
+    assert(combine(Nil) === Nil)
+  }
 
   test("decode and encode a very short text should be identity") {
     new TestTrees {
-      assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+      val t = createCodeTree("qwertyuioplkjhgfdsazxcvbnmaaaaabbbh".toList)
+      assert(decode(t, encode(t)("abacccdffaaaffeh".toList)) === "abacccdffaaaffeh".toList)
     }
+  }
+  
+  test("code table") {
+    new TestTrees {
+      val t = createCodeTree("qwertyuioplkjhgfdsazxcvbnmaaaaabbbh".toList)
+      assert(decode(t, quickEncode(t)("abacccdffaaaffeh".toList)) === "abacccdffaaaffeh".toList)
+    }    
   }
 }
